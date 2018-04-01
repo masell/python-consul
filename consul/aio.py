@@ -54,8 +54,8 @@ class HTTPClient(base.HTTPClient):
         uri = self.uri(path, params)
         return self._request(callback, 'POST', uri, data=data)
 
-    def close(self):
-        self._session.close()
+    async def close(self):
+        await self._session.close()
 
 
 class Consul(base.Consul):
@@ -68,6 +68,6 @@ class Consul(base.Consul):
         return HTTPClient(host, port, scheme, loop=self._loop,
                           verify=verify, cert=None)
 
-    def close(self):
+    async def close(self):
         """Close all opened http connections"""
-        self.http.close()
+        await self.http.close()
